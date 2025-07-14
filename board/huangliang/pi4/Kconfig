@@ -1,0 +1,18 @@
+if TARGET_PI4
+
+config SYS_BOARD
+	default "pi4"
+
+config SYS_VENDOR
+	default "huangliang"
+
+config SYS_SOC
+	default "hl_pi4"
+
+config SYS_CONFIG_NAME
+	default "pi4"
+
+config SYS_TEXT_BASE
+	default 0x00080000
+
+endif
