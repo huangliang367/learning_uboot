@@ -33,6 +33,65 @@ static int pl_getc(struct pl_regs *regs)
 	return (int) data;
 }
 
+static const struct udevice_id pl_serial_id[] ={
+	{.compatible = "hl,pl-uart", .data = 0},
+	{}
+};
+
+int pl_serial_ofdata_to_platdata(struct udevice *dev)
+{
+    return 0;
+}
+
+int pl_serial_putc(struct udevice *dev, const char ch)
+{
+    puts(ch);
+    return 0;
+}
+
+int pl_serial_pending(struct udevice *dev, bool input)
+{
+    puts("pl_serial_pending called\n");
+    return 0;
+}
+
+int pl_serial_getc(struct udevice *dev)
+{
+    puts("pl_serial_getc called\n");
+    return 0;
+}
+
+int pl_serial_setbrg(struct udevice *dev, int baudrate)
+{
+    puts("pl_serial_setbrg called\n");
+    return 0;
+}
+
+static const struct dm_serial_ops pl_serial_ops = {
+	.putc = pl_serial_putc,
+	.pending = pl_serial_pending,
+	.getc = pl_serial_getc,
+	.setbrg = pl_serial_setbrg,
+};
+
+int pl_serial_probe(struct udevice *dev)
+{
+    puts("Probing pl_serial\n");
+    return 0;
+}
+
+U_BOOT_DRIVER(serial_pl01x) = {
+	.name	= "serial_pl",
+	.id	= UCLASS_SERIAL,
+	.of_match = of_match_ptr(pl_serial_id),
+	.ofdata_to_platdata = of_match_ptr(pl_serial_ofdata_to_platdata),
+	.platdata_auto_alloc_size = 0x40,
+	.probe = pl_serial_probe,
+	.ops	= &pl_serial_ops,
+	.flags = DM_FLAG_PRE_RELOC,
+	.priv_auto_alloc_size = sizeof(struct pl_priv),
+};
+
 #if defined(CONFIG_DEBUG_UART_HL_PL)
 
 #include <debug_uart.h>

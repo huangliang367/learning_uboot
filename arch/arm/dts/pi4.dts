@@ -10,6 +10,9 @@
 	model = "Test Board for Raspberry Pi 4";
 	compatible = "hl,pi4";
 
+	#address-cells = <1>;
+	#size-cells = <1>;
+
 	serial@fe201000 {
 		compatible = "hl,pl-uart";
 		reg = <0xfe201000 0x1000>;
