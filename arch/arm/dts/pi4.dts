@@ -10,7 +10,12 @@
 	model = "Test Board for Raspberry Pi 4";
 	compatible = "hl,pi4";
 
+	serial@fe201000 {
+		compatible = "hl,pl-uart";
+		reg = <0xfe201000 0x1000>;
+	};
+
 	chosen {
-		stdout-path = "/serial@7e215040:115200n8";
+		stdout-path = "/serial@fe201000";
 	};
 };

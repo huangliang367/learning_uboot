@@ -980,6 +980,8 @@ static const init_fnc_t init_sequence_f[] = {
 
 void board_init_f(ulong boot_flags)
 {
+	debug_uart_init();
+
 	gd->flags = boot_flags;
 	gd->have_console = 0;
 
