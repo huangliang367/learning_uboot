@@ -595,6 +595,11 @@ config PIC32_SERIAL
 	help
 	  Support for the UART found on Microchip PIC32 SoC's.
 
+config HL_PL
+	bool "Test Raspberry Pi 4 HL PL UART"
+	help
+	  Test Raspberry Pi 4 Uart Driver
+
 config SYS_NS16550
 	bool "NS16550 UART or compatible"
 	help

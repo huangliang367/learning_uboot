@@ -40,25 +40,33 @@ static const struct udevice_id pl_serial_id[] ={
 
 int pl_serial_ofdata_to_platdata(struct udevice *dev)
 {
+    struct pl_serial_platdata *plat = dev_get_platdata(dev);
+    fdt_addr_t addr;
+
+    addr = devfdt_get_addr(dev);
+
+    plat->base = addr;
+
     return 0;
 }
 
 int pl_serial_putc(struct udevice *dev, const char ch)
 {
-    puts(ch);
-    return 0;
+	struct pl_priv *priv = dev_get_priv(dev);
+
+    return pl_putc(priv->regs, ch);
 }
 
 int pl_serial_pending(struct udevice *dev, bool input)
 {
-    puts("pl_serial_pending called\n");
     return 0;
 }
 
 int pl_serial_getc(struct udevice *dev)
 {
-    puts("pl_serial_getc called\n");
-    return 0;
+	struct pl_priv *priv = dev_get_priv(dev);
+
+    return pl_getc(priv->regs);
 }
 
 int pl_serial_setbrg(struct udevice *dev, int baudrate)
@@ -74,9 +82,39 @@ static const struct dm_serial_ops pl_serial_ops = {
 	.setbrg = pl_serial_setbrg,
 };
 
+static void pl_init_uart(struct pl_regs *regs)
+{
+    u32 selector = 0;
+    // 1. set gpio functions for UART
+    selector = readl(GPFSEL1);
+    selector &= ~(7 << 12); // Clear bits for GPIO 14
+    selector |= (4 << 12);  // Set GPIO 14 to ALT0 (UART TX)
+    selector &= ~(7 << 15); // Clear bits for GPIO 15
+    selector |= (4 << 15);  // Set GPIO 15 to ALT0 (UART RX)
+    writel(selector, GPFSEL1);
+
+    // 2. set pull-up/down for UART pins
+    writel(0, GPIO_PUP_PDN_CNTRL_REG0); // Disable pull-up/down
+    selector |= (0x0 << 30) | (0x3 << 28);
+    writel(selector, GPIO_PUP_PDN_CNTRL_REG0);
+
+    /* Initialize the serial port */
+    writel(0, &regs->cr);  /* Disable the UART */
+    writel(26, &regs->ibrd);  /* 8 bits, no parity, 1 stop bit */
+    writel(0x3, &regs->fbrd);  /* Set integer baud rate divisor */
+    writel((1 << 4) | (3 << 5), &regs->lcrh);  /* Set fractional baud rate divisor */
+    writel(0, &regs->imsc);  /* Enable the UART */
+    writel(1 | (1 << 8) | (1 << 9), &regs->cr);  /* Enable RX, TX, and the UART */    
+}
+
 int pl_serial_probe(struct udevice *dev)
 {
-    puts("Probing pl_serial\n");
+    struct pl_serial_platdata *plat = dev_get_platdata(dev);
+    struct pl_priv *priv = dev_get_priv(dev);
+
+    priv->regs = (struct pl_regs *)plat->base;
+    pl_init_uart(priv->regs);
+
     return 0;
 }
 

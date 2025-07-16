@@ -1201,6 +1201,7 @@ config TARGET_PI4
 	select DM
 	select DM_SERIAL
 	select OF_CONTROL
+	select HL_PL
 
 config TARGET_HIKEY
 	bool "Support HiKey 96boards Consumer Edition Platform"

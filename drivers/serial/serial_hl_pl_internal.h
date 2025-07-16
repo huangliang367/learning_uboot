@@ -16,6 +16,10 @@ struct pl_priv {
 	struct pl_regs *regs;
 };
 
+struct pl_serial_platdata {
+    unsigned long base; /* Register base address */
+};
+
 #define PBASE       0xFE000000
 #define GPFSEL1     (PBASE + 0x00200004)
 #define GPSET0      (PBASE + 0x0020001C)
