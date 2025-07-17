@@ -71,7 +71,6 @@ int pl_serial_getc(struct udevice *dev)
 
 int pl_serial_setbrg(struct udevice *dev, int baudrate)
 {
-    puts("pl_serial_setbrg called\n");
     return 0;
 }
 

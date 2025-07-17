@@ -646,7 +646,7 @@ static init_fnc_t init_sequence_r[] = {
 	initr_reloc,
 	/* TODO: could x86/PPC have this also perhaps? */
 #ifdef CONFIG_ARM
-	initr_caches,
+	// initr_caches,
 	/* Note: For Freescale LS2 SoCs, new MMU table is created in DDR.
 	 *	 A temporary mapping of IFC high region is since removed,
 	 *	 so environmental variables in NOR flash is not available

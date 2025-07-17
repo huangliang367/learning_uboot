@@ -92,3 +92,4 @@ GTAGS
 \#*#
 !.vscode
 compile_commands.json
+log.txt

@@ -13,6 +13,11 @@
 	#address-cells = <1>;
 	#size-cells = <1>;
 
+	memory {
+		device_type = "memory";
+		reg = <0x00000000 0x40000000>;
+	};
+
 	serial@fe201000 {
 		compatible = "hl,pl-uart";
 		reg = <0xfe201000 0x1000>;
