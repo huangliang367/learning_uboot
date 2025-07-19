@@ -521,6 +521,7 @@ CONFIG_CMD_MISC=y
 # CONFIG_CMD_AES is not set
 # CONFIG_CMD_BLOB is not set
 # CONFIG_CMD_HASH is not set
+CONFIG_CMD_HELLO=y
 # CONFIG_CMD_HVC is not set
 # CONFIG_CMD_SMC is not set
 
