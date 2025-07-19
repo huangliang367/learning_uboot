@@ -59,7 +59,7 @@ int pl_serial_putc(struct udevice *dev, const char ch)
 
 int pl_serial_pending(struct udevice *dev, bool input)
 {
-    return 0;
+    return 1;
 }
 
 int pl_serial_getc(struct udevice *dev)
