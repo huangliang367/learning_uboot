@@ -1728,6 +1728,11 @@ config CMD_HASH
 	  saved to memory or to an environment variable. It is also possible
 	  to verify a hash against data in memory.
 
+config CMD_HELLO
+	bool "Support 'hello' command"
+	help
+	  This command prints a friendly greeting message.
+
 config CMD_HVC
 	bool "Support the 'hvc' command"
 	depends on ARM_SMCCC
